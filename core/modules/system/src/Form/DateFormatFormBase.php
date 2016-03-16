@@ -43,8 +43,6 @@ abstract class DateFormatFormBase extends EntityForm {
    *   The date format storage.
    */
   public function __construct(DateFormatterInterface $date_formatter, ConfigEntityStorageInterface $date_format_storage) {
-    $date = new DrupalDateTime();
-
     $this->dateFormatter = $date_formatter;
     $this->dateFormatStorage = $date_format_storage;
   }
@@ -85,13 +83,13 @@ abstract class DateFormatFormBase extends EntityForm {
       '#type' => 'textfield',
       '#title' => 'Name',
       '#maxlength' => 100,
-      '#description' => t('Name of the date format'),
+      '#description' => $this->t('Name of the date format'),
       '#default_value' => $this->entity->label(),
     );
 
     $form['id'] = array(
       '#type' => 'machine_name',
-      '#description' => t('A unique machine-readable name. Can only contain lowercase letters, numbers, and underscores.'),
+      '#description' => $this->t('A unique machine-readable name. Can only contain lowercase letters, numbers, and underscores.'),
       '#disabled' => !$this->entity->isNew(),
       '#default_value' => $this->entity->id(),
       '#machine_name' => array(
@@ -102,7 +100,7 @@ abstract class DateFormatFormBase extends EntityForm {
     );
     $form['date_format_pattern'] = array(
       '#type' => 'textfield',
-      '#title' => t('Format string'),
+      '#title' => $this->t('Format string'),
       '#maxlength' => 100,
       '#description' => $this->t('A user-defined date format. See the <a href="http://php.net/manual/function.date.php">PHP manual</a> for available options.'),
       '#required' => TRUE,
@@ -114,7 +112,7 @@ abstract class DateFormatFormBase extends EntityForm {
 
     $form['langcode'] = array(
       '#type' => 'language_select',
-      '#title' => t('Language'),
+      '#title' => $this->t('Language'),
       '#languages' => LanguageInterface::STATE_ALL,
       '#default_value' => $this->entity->language()->getId(),
     );
@@ -134,7 +132,7 @@ abstract class DateFormatFormBase extends EntityForm {
     $pattern = trim($form_state->getValue('date_format_pattern'));
     foreach ($this->dateFormatStorage->loadMultiple() as $format) {
       if ($format->getPattern() == $pattern && ($format->id() == $this->entity->id())) {
-        drupal_set_message(t('The existing format/name combination has not been altered.'));
+        drupal_set_message($this->t('The existing format/name combination has not been altered.'));
         continue;
       }
     }
@@ -154,10 +152,10 @@ abstract class DateFormatFormBase extends EntityForm {
   public function save(array $form, FormStateInterface $form_state) {
     $status = $this->entity->save();
     if ($status == SAVED_UPDATED) {
-      drupal_set_message(t('Custom date format updated.'));
+      drupal_set_message($this->t('Custom date format updated.'));
     }
     else {
-      drupal_set_message(t('Custom date format added.'));
+      drupal_set_message($this->t('Custom date format added.'));
     }
     $form_state->setRedirectUrl($this->entity->urlInfo('collection'));
   }

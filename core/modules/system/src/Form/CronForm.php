@@ -14,6 +14,7 @@ use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\State\StateInterface;
+use Drupal\Core\Url;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -95,20 +96,21 @@ class CronForm extends FormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
     $form['description'] = array(
-      '#markup' => '<p>' . t('Cron takes care of running periodic tasks like checking for updates and indexing content for search.') . '</p>',
+      '#markup' => '<p>' . $this->t('Cron takes care of running periodic tasks like checking for updates and indexing content for search.') . '</p>',
     );
     $form['run'] = array(
       '#type' => 'submit',
-      '#value' => t('Run cron'),
+      '#value' => $this->t('Run cron'),
     );
     $status = '<p>' . $this->t('Last run: %time ago.', array('%time' => $this->dateFormatter->formatTimeDiffSince($this->state->get('system.cron_last')))) . '</p>';
     $form['status'] = array(
       '#markup' => $status,
     );
 
-    $cron_url = $this->url('system.cron', array('key' => $this->state->get('system.cron_key')), array('absolute' => TRUE));
+    $cron_url = Url::fromRoute('system.cron', array('key' => $this->state->get('system.cron_key')), array('absolute' => TRUE));
+
     $form['cron_url'] = array(
-      '#markup' => '<p>' . t('To run cron from outside the site, go to <a href=":cron">@cron</a>', array(':cron' => $cron_url, '@cron' => $cron_url)) . '</p>',
+      '#markup' => '<p>' . $this->t('To run cron from outside the site, go to <a href=":cron">@cron</a>', array(':cron' => $cron_url, '@cron' => $cron_url)) . '</p>',
     );
 
     if (!$this->moduleHandler->moduleExists('automated_cron')) {
