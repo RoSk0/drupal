@@ -36,28 +36,28 @@ class RssFeedsForm extends ConfigFormBase {
     $rss_config = $this->config('system.rss');
     $form['feed_description'] = array(
       '#type' => 'textarea',
-      '#title' => t('Feed description'),
+      '#title' => $this->t('Feed description'),
       '#default_value' => $rss_config->get('channel.description'),
-      '#description' => t('Description of your site, included in each feed.')
+      '#description' => $this->t('Description of your site, included in each feed.'),
     );
     $options = array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25, 30);
     $form['feed_default_items'] = array(
       '#type' => 'select',
-      '#title' => t('Number of items in each feed'),
+      '#title' => $this->t('Number of items in each feed'),
       '#default_value' => $rss_config->get('items.limit'),
       '#options' => array_combine($options, $options),
-      '#description' => t('Default number of items to include in each feed.')
+      '#description' => $this->t('Default number of items to include in each feed.'),
     );
     $form['feed_view_mode'] = array(
       '#type' => 'select',
-      '#title' => t('Feed content'),
+      '#title' => $this->t('Feed content'),
       '#default_value' => $rss_config->get('items.view_mode'),
       '#options' => array(
-        'title' => t('Titles only'),
-        'teaser' => t('Titles plus teaser'),
-        'fulltext' => t('Full text'),
+        'title' => $this->t('Titles only'),
+        'teaser' => $this->t('Titles plus teaser'),
+        'fulltext' => $this->t('Full text'),
       ),
-      '#description' => t('Global setting for the default display of content items in each feed.')
+      '#description' => $this->t('Global setting for the default display of content items in each feed.'),
     );
 
     return parent::buildForm($form, $form_state);
