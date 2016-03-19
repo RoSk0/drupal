@@ -74,13 +74,13 @@ class RegionalForm extends ConfigFormBase {
 
     $form['locale'] = array(
       '#type' => 'details',
-      '#title' => t('Locale'),
+      '#title' => $this->t('Locale'),
       '#open' => TRUE,
     );
 
     $form['locale']['site_default_country'] = array(
       '#type' => 'select',
-      '#title' => t('Default country'),
+      '#title' => $this->t('Default country'),
       '#empty_value' => '',
       '#default_value' => $system_date->get('country.default'),
       '#options' => $countries,
@@ -89,20 +89,28 @@ class RegionalForm extends ConfigFormBase {
 
     $form['locale']['date_first_day'] = array(
       '#type' => 'select',
-      '#title' => t('First day of week'),
+      '#title' => $this->t('First day of week'),
       '#default_value' => $system_date->get('first_day'),
-      '#options' => array(0 => t('Sunday'), 1 => t('Monday'), 2 => t('Tuesday'), 3 => t('Wednesday'), 4 => t('Thursday'), 5 => t('Friday'), 6 => t('Saturday')),
+      '#options' => array(
+        0 => $this->t('Sunday'),
+        1 => $this->t('Monday'),
+        2 => $this->t('Tuesday'),
+        3 => $this->t('Wednesday'),
+        4 => $this->t('Thursday'),
+        5 => $this->t('Friday'),
+        6 => $this->t('Saturday'),
+      ),
     );
 
     $form['timezone'] = array(
       '#type' => 'details',
-      '#title' => t('Time zones'),
+      '#title' => $this->t('Time zones'),
       '#open' => TRUE,
     );
 
     $form['timezone']['date_default_timezone'] = array(
       '#type' => 'select',
-      '#title' => t('Default time zone'),
+      '#title' => $this->t('Default time zone'),
       '#default_value' => $system_date->get('timezone.default') ?: date_default_timezone_get(),
       '#options' => $zones,
     );
@@ -110,15 +118,15 @@ class RegionalForm extends ConfigFormBase {
     $configurable_timezones = $system_date->get('timezone.user.configurable');
     $form['timezone']['configurable_timezones'] = array(
       '#type' => 'checkbox',
-      '#title' => t('Users may set their own time zone'),
+      '#title' => $this->t('Users may set their own time zone'),
       '#default_value' => $configurable_timezones,
     );
 
-    $form['timezone']['configurable_timezones_wrapper'] =  array(
+    $form['timezone']['configurable_timezones_wrapper'] = array(
       '#type' => 'container',
       '#states' => array(
-        // Hide the user configured timezone settings when users are forced to use
-        // the default setting.
+        // Hide the user configured timezone settings when users are forced to
+        // use the default setting.
         'invisible' => array(
           'input[name="configurable_timezones"]' => array('checked' => FALSE),
         ),
@@ -126,21 +134,21 @@ class RegionalForm extends ConfigFormBase {
     );
     $form['timezone']['configurable_timezones_wrapper']['empty_timezone_message'] = array(
       '#type' => 'checkbox',
-      '#title' => t('Remind users at login if their time zone is not set'),
+      '#title' => $this->t('Remind users at login if their time zone is not set'),
       '#default_value' => $system_date->get('timezone.user.warn'),
-      '#description' => t('Only applied if users may set their own time zone.')
+      '#description' => $this->t('Only applied if users may set their own time zone.'),
     );
 
     $form['timezone']['configurable_timezones_wrapper']['user_default_timezone'] = array(
       '#type' => 'radios',
-      '#title' => t('Time zone for new users'),
+      '#title' => $this->t('Time zone for new users'),
       '#default_value' => $system_date->get('timezone.user.default'),
       '#options' => array(
-        DRUPAL_USER_TIMEZONE_DEFAULT => t('Default time zone'),
-        DRUPAL_USER_TIMEZONE_EMPTY   => t('Empty time zone'),
-        DRUPAL_USER_TIMEZONE_SELECT  => t('Users may set their own time zone at registration'),
+        DRUPAL_USER_TIMEZONE_DEFAULT => $this->t('Default time zone'),
+        DRUPAL_USER_TIMEZONE_EMPTY   => $this->t('Empty time zone'),
+        DRUPAL_USER_TIMEZONE_SELECT  => $this->t('Users may set their own time zone at registration'),
       ),
-      '#description' => t('Only applied if users may set their own time zone.')
+      '#description' => $this->t('Only applied if users may set their own time zone.'),
     );
 
     return parent::buildForm($form, $form_state);
