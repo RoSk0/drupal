@@ -107,19 +107,19 @@ class PerformanceForm extends ConfigFormBase {
 
     $form['clear_cache'] = array(
       '#type' => 'details',
-      '#title' => t('Clear cache'),
+      '#title' => $this->t('Clear cache'),
       '#open' => TRUE,
     );
 
     $form['clear_cache']['clear'] = array(
       '#type' => 'submit',
-      '#value' => t('Clear all caches'),
+      '#value' => $this->t('Clear all caches'),
       '#submit' => array('::submitCacheClear'),
     );
 
     $form['caching'] = array(
       '#type' => 'details',
-      '#title' => t('Caching'),
+      '#title' => $this->t('Caching'),
       '#open' => TRUE,
       '#description' => $this->t('Note: Drupal provides an internal page cache module that is recommended for small to medium-sized websites.'),
     );
@@ -127,13 +127,13 @@ class PerformanceForm extends ConfigFormBase {
     // @see \Drupal\Core\Block\BlockBase::buildConfigurationForm()
     $period = array(0, 60, 180, 300, 600, 900, 1800, 2700, 3600, 10800, 21600, 32400, 43200, 86400);
     $period = array_map(array($this->dateFormatter, 'formatInterval'), array_combine($period, $period));
-    $period[0] = '<' . t('no caching') . '>';
+    $period[0] = '<' . $this->t('no caching') . '>';
     $form['caching']['page_cache_maximum_age'] = array(
       '#type' => 'select',
-      '#title' => t('Page cache maximum age'),
+      '#title' => $this->t('Page cache maximum age'),
       '#default_value' => $config->get('cache.page.max_age'),
       '#options' => $period,
-      '#description' => t('The maximum time a page can be cached by browsers and proxies. This is used as the value for max-age in Cache-Control headers.'),
+      '#description' => $this->t('The maximum time a page can be cached by browsers and proxies. This is used as the value for max-age in Cache-Control headers.'),
     );
 
     $directory = 'public://';
@@ -141,25 +141,25 @@ class PerformanceForm extends ConfigFormBase {
     $disabled = !$is_writable;
     $disabled_message = '';
     if (!$is_writable) {
-      $disabled_message = ' ' . t('<strong class="error">Set up the <a href=":file-system">public files directory</a> to make these optimizations available.</strong>', array(':file-system' => $this->url('system.file_system_settings')));
+      $disabled_message = ' ' . $this->t('<strong class="error">Set up the <a href=":file-system">public files directory</a> to make these optimizations available.</strong>', array(':file-system' => $this->url('system.file_system_settings')));
     }
 
     $form['bandwidth_optimization'] = array(
       '#type' => 'details',
-      '#title' => t('Bandwidth optimization'),
+      '#title' => $this->t('Bandwidth optimization'),
       '#open' => TRUE,
-      '#description' => t('External resources can be optimized automatically, which can reduce both the size and number of requests made to your website.') . $disabled_message,
+      '#description' => $this->t('External resources can be optimized automatically, which can reduce both the size and number of requests made to your website.') . $disabled_message,
     );
 
     $form['bandwidth_optimization']['preprocess_css'] = array(
       '#type' => 'checkbox',
-      '#title' => t('Aggregate CSS files'),
+      '#title' => $this->t('Aggregate CSS files'),
       '#default_value' => $config->get('css.preprocess'),
       '#disabled' => $disabled,
     );
     $form['bandwidth_optimization']['preprocess_js'] = array(
       '#type' => 'checkbox',
-      '#title' => t('Aggregate JavaScript files'),
+      '#title' => $this->t('Aggregate JavaScript files'),
       '#default_value' => $config->get('js.preprocess'),
       '#disabled' => $disabled,
     );
