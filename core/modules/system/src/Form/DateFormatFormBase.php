@@ -157,7 +157,7 @@ abstract class DateFormatFormBase extends EntityForm {
     else {
       drupal_set_message($this->t('Custom date format added.'));
     }
-    $form_state->setRedirectUrl($this->entity->urlInfo('collection'));
+    $form_state->setRedirectUrl($this->entity->toUrl('collection'));
   }
 
 }
